@@ -1,10 +1,14 @@
 def check_in_circle(circle, point):
-    result = 0 
+    result =0 
     for c in circle: 
+        InCircle = 0
         for p in point: 
             if ( (p[0]-c[0])**2 + (p[1] -c[1])**2 < c[2]**2 ) :
-                result += 1 
-    
+                InCircle += 1
+        # 현재 원 안에 1개 점이 있는 경우  
+        if (InCircle == 1) : 
+            result += 1 
+
     print(result)
 
 T = int(input())
