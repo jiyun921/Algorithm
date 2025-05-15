@@ -1,3 +1,5 @@
+import sys
+
 def push(queue, x):
     queue.append(x)
 
@@ -31,7 +33,7 @@ def back(queue):
 queue = []
 N = int(input())
 for i in range(N):
-    command = input().split()
+    command = sys.stdin.readline().split()
     if command[0] == 'push':
         push(queue, int(command[1]))
     elif command[0] == 'pop':
