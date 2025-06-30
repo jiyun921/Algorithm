@@ -2,6 +2,7 @@ import sys
 input = sys.stdin.readline 
 
 def div_tree(start, end, level):
+    global visit, tree
     if start>end:
         return 
     else : 

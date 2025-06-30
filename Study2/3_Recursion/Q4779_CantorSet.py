@@ -1,7 +1,7 @@
 import sys
 
-
 def div_line(n, start, end):
+    global result
     if n == 0:
         return  
     else:
