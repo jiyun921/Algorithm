@@ -12,9 +12,7 @@ public class BOJ2573 {
     static int[] dy = {0,0,-1,1};
     static int n;
     static int m;
-    static int year=0;
-    static boolean is_separated = false;
-
+    static boolean is_separated;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,8 +21,6 @@ public class BOJ2573 {
         m = Integer.parseInt(st.nextToken());
 
         graph = new int[n][m];
-        visited = new boolean[n][m];
-        nearSeaCount = new int[n][m];
 
         for (int i=0; i<n; i++) {
             st = new StringTokenizer(br.readLine());
@@ -33,11 +29,20 @@ public class BOJ2573 {
             }
         }
 
-        InitMelting();
+        int year = 0;
         while (!isAllZero(graph)) {
+            InitMelting();
+            year++;
+
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    graph[i][j] -= nearSeaCount[i][j];
+                    if (graph[i][j] < 0) graph[i][j] = 0;
+                }
+            }
 
             visited = new boolean[n][m];
-
+            is_separated = false;
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
                     if (!visited[i][j] && graph[i][j] != 0 && !is_separated) {
@@ -50,31 +55,6 @@ public class BOJ2573 {
                 }
             }
 
-
-
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    graph[i][j] -= nearSeaCount[i][j];
-                    if (graph[i][j] < 0) graph[i][j] = 0;
-                }
-            }
-
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    if (graph[i][j] == 0) {
-                        for (int d = 0; d < 4; d++) {
-                            int nearX = i + dx[d];
-                            int nearY = j + dy[d];
-                            if (nearX >= 0 && nearX < n && nearY >= 0 && nearY < m && graph[nearX][nearY] != 0) {
-                                nearSeaCount[nearX][nearY]++;
-                            }
-                        }
-                    }
-                }
-            }
-
-            year++;
-
         }
 
         System.out.println(0);
@@ -86,7 +66,7 @@ public class BOJ2573 {
         for (int d=0; d<4; d++) {
             int nx = x + dx[d];
             int ny = y + dy[d];
-            if (nx >=0 && nx<n && ny>=0 && ny<m && graph[nx][ny] != 0) {
+            if (nx >=0 && nx<n && ny>=0 && ny<m && graph[nx][ny] != 0 && !visited[nx][ny]) {
                 dfs(nx,ny);
             }
         }
@@ -102,6 +82,7 @@ public class BOJ2573 {
     }
 
     static void InitMelting() {
+        nearSeaCount = new int[n][m];
         for (int i=0; i<n; i++) {
             for (int j=0; j<m; j++) {
                 if (graph[i][j] != 0) {
