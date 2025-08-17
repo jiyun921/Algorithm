@@ -9,28 +9,28 @@ public class BOJ16953 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int A = Integer.parseInt(st.nextToken());
-        int B = Integer.parseInt(st.nextToken());
+        long A = Integer.parseInt(st.nextToken());
+        long B = Integer.parseInt(st.nextToken());
 
         System.out.println(bfs(A, B));
     }
 
-    static int bfs(int start, int goal) {
+    static int bfs(long start, long goal) {
         int count = 1;
-        Queue<Integer> queue = new ArrayDeque<>();
+        Queue<Long> queue = new ArrayDeque<>();
         queue.offer(start);
 
         while (!queue.isEmpty()) {
             int queueSize = queue.size();
             for (int i=0; i<queueSize; i++) {
-                int current = queue.poll();
+                long current = queue.poll();
 
                 if (current == goal) {
                     return count;
                 }
 
-                int next1 = current*2;
-                int next2 = Integer.parseInt(String.valueOf(current) +"1");
+                long next1 = current*2;
+                long next2 = Long.parseLong(String.valueOf(current) +"1");
 
                 if (next1 <= goal) {
                     queue.offer(next1);
