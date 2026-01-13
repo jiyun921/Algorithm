@@ -24,12 +24,11 @@ public class BOJ1005 {
             int[] d = new int[n+1];
             int[] dp = new int[n+1];
             int[] level = new int[n+1];
+            int[] maxPrev = new int[n+1];
 
             List<Integer>[] next_building = new ArrayList[n+1];
-            List<Integer>[] prev_building = new ArrayList[n+1];
             for (int i=1; i<n+1; i++) {
                 next_building[i] = new ArrayList<>();
-                prev_building[i] = new ArrayList<>();
             }
 
             st = new StringTokenizer(br.readLine());
@@ -43,7 +42,6 @@ public class BOJ1005 {
                 x = Integer.parseInt(st.nextToken());
                 y = Integer.parseInt(st.nextToken());
                 next_building[x].add(y);
-                prev_building[y].add(x);
                 level[y]+=1;
             }
 
@@ -63,13 +61,10 @@ public class BOJ1005 {
                 for (int next : next_building[current]) {
                     level[next]--;
 
-                    int max_prev = 0;
-                    for (int prev: prev_building[next]) {
-                        max_prev = Math.max(max_prev, dp[prev]);
-                    }
+                    maxPrev[next] = Math.max(maxPrev[next], dp[current]);
 
                     if (level[next] == 0) {
-                        dp[next] = max_prev + d[next];
+                        dp[next] = maxPrev[next] + d[next];
                         queue.offer(next);
                     }
                 }
